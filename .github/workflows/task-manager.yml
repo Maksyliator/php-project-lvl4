@@ -24,10 +24,5 @@ jobs:
       run: php artisan key:generate
     - name: Check lint
       run: make lint
-    - name: Test & publish code coverage
-      uses: paambaati/codeclimate-action@v2.7.5
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.REPORTER_ID }}
-      with:
-        coverageCommand: make test-coverage
-        coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+    - name: Test
+      run: make test

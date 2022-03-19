@@ -1,0 +1,73 @@
+{
+    "Actions": "Действия",
+    "Assigned To": "Исполнитель",
+    "Аre you sure?": "Вы уверены?",
+    "Author": "Автор",
+    "Apply": "Применить",
+
+    "Creator": "Автор",
+    "Change status": "Изменение статуса",
+    "Change task": "Изменение задачи",
+    "Change label": "Изменение метки",
+    "Created at": "Дата создания",
+    "Create task": "Создать задачу",
+    "Create status": "Создать статус",
+    "Create label": "Создать метку",
+    "Confirm Password": "Подтверждение",
+    "Create": "Создать",
+    "Change": "Изменить",
+
+    "Delete": "Удалить",
+    "Description": "Описание",
+
+    "E-Mail Address": "Email",
+    "Edit": "Изменить",
+    "Enter": "Войти",
+
+    "Forgot Your Password?": "Забыли пароль?",
+    "flash.task_status.update.success": "Статус успешно изменён",
+    "flash.task_status.delete.success": "Статус успешно удалён",
+    "flash.task_status.failed_to_delete.error": "Не удалось удалить статус",
+    "flash.labels.delete.success": "Метка успешно удалена",
+    "flash.labels.failed_to_delete.error": "Не удалось удалить метку",
+    "flash.labels.update.success": "Метка успешно изменена",
+    "flash.task_status.create.success": "Статус успешно создан",
+    "flash.tasks.create.success": "Задача успешно создана",
+    "flash.tasks.update.success": "Задача успешно изменена",
+    "flash.tasks.delete.success": "Задача успешно удалена",
+    "flash.labels.create.success": "Метка успешно создана",
+    "flash.tasks.failed_to_delete.error": "Не удалось удалить задачу",
+    "flash.tasks.this_action_is_unauthorized": "Эта операция не авторизована",
+
+    "Login": "Вход",
+    "Logout": "Выход",
+    "Labels": "Метки",
+    "Learn more": "Узнать больше",
+
+    "Name": "Имя",
+
+    "Password": "Пароль",
+    "Practical programming courses": "Практические курсы по программированию",
+
+    "Remember Me": "Запомнить меня",
+    "Registration": "Регистрация",
+    "Register": "Регистрация",
+    "Reset Password": "Сброс пароля",
+
+    "Statuses": "Статусы",
+    "Status": "Статус",
+    "Send Password Reset Link": "Сбросить пароль",
+
+    "Task manager": "Менеджер задач",
+    "The name length cannot be more than 255": "Длина имени не может быть больше 255 символов",
+    "The password confirmation does not match.": "Пароль и подтверждение не совпадают",
+    "The task has already been taken.":"Задача с таким именем уже существует",
+    "The status has already been taken.": "Статус с таким именем уже существует",
+    "The label has already been taken.": "Метка с таким именем уже существует",
+    "These credentials do not match our records.":"Введите правильные имя пользователя и пароль",
+    "Tasks": "Задачи",
+    "View task": "Просмотр задачи",
+    "Update": "Обновить",
+    "You are logged in!": "Вы вошли в систему!"
+}
+

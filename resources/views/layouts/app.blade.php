@@ -20,8 +20,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-
-<body>
+<body class="min-vh-100 d-flex flex-column">
+<header class="flex-shrink-0">
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -37,7 +37,7 @@
                         <a class="nav-link " href="{{ route('main') }}">{{ __('Tasks') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('main') }}">{{ __('Statuses') }}</a>
+                        <a class="nav-link " href="{{ route('task_statuses.index') }}">{{ __('Statuses') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="{{ route('main') }}">{{ __('Labels') }}</a>
@@ -83,11 +83,15 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="container py-4">
+        @include('flash::message')
+        <h1 class="mb-5">@yield('h1')</h1>
         @yield('content')
     </main>
 </div>
+</header>
 
+<div class="wrapper flex-grow-1"></div>
 <footer class="py-3 mt-5 shadow-lg">
     <div class="text-center container-lg">
         {{ date('Y') }} г.

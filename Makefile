@@ -24,7 +24,7 @@ test-text:
 	composer exec --verbose phpunit tests -- --coverage-text
 
 test-coverage:
-	vendor/bin/phpunit --coverage-clover coverage.xml
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
 
 deploy:
 	git push heroku

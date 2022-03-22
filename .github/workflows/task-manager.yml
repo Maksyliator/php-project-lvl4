@@ -16,13 +16,19 @@ jobs:
       with:
         php-version: '8.0'
     - uses: actions/checkout@v2
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Generate key
-      run: php artisan key:generate
+
+    - name: Setup project
+      run: make setup
+
     - name: Check lint
       run: make lint
-    - name: Test
-      run: make test
+
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        XDEBUG_MODE: coverage
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        coverageCommand: make test-coverage
+        coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+        debug: true

@@ -25,7 +25,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('main') }}">{{ __('Task manager') }}</a>
+            <a class="navbar-brand" href="{{ route('index') }}">{{ __('Task manager') }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,13 +34,13 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('main') }}">{{ __('Tasks') }}</a>
+                        <a class="nav-link " href="{{ route('index') }}">{{ __('Tasks') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="{{ route('task_statuses.index') }}">{{ __('Statuses') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('main') }}">{{ __('Labels') }}</a>
+                        <a class="nav-link " href="{{ route('index') }}">{{ __('Labels') }}</a>
                     </li>
                 </ul>
 

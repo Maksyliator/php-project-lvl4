@@ -6,7 +6,7 @@ use App\Models\TaskStatus;
 use App\Models\User;
 use Tests\TestCase;
 
-class TaskStatusController extends TestCase
+class TaskStatusControllerTest extends TestCase
 {
     public function setUp(): void
     {

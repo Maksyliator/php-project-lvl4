@@ -28,3 +28,9 @@ test-coverage:
 
 deploy:
 	git push heroku
+
+migrate:
+	php artisan migrate
+
+rollback:
+	php artisan migrate:rollback

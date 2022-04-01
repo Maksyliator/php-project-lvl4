@@ -78,7 +78,6 @@ class TaskController extends Controller
     {
         $taskStatuses = DB::table('task_statuses')->get();
         $users = DB::table('users')->get();
-        //$labels = DB::table('labels')->get();
         return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
     }
 
@@ -92,7 +91,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:tasks|max:255',
+            'name' => 'required:tasks|max:255',
             'description' => 'max:1000',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable'

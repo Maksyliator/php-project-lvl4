@@ -10,7 +10,7 @@ class TaskStatusController extends Controller
 
     public function index()
     {
-        $taskStatuses = TaskStatus::paginate(5);
+        $taskStatuses = TaskStatus::paginate(10);
         return view('task_statuses.index', compact('taskStatuses'));
     }
 
@@ -69,7 +69,7 @@ class TaskStatusController extends Controller
     public function update(Request $request, TaskStatus $taskStatus)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:task_statuses'
+            'name' => 'required:task_statuses'
         ]);
         $taskStatus->fill($data);
         $taskStatus->save();

@@ -1,0 +1,101 @@
+<?php
+
+
+namespace Tests\Feature;
+
+use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
+use Tests\TestCase;
+
+class TaskControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public User $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        TaskStatus::factory()->create();
+    }
+
+    public function testIndex(): void
+    {
+        $response = $this->get(route('tasks.index'));
+        $response->assertOk();
+    }
+
+    public function testCreate(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)
+            ->get(route('tasks.create'));
+        $response->assertOk();
+    }
+
+    public function testStore(): void
+    {
+        $factoryData = Task::factory()->make()->toArray();
+        $factoryData['labels'] = [null];
+        $task = Arr::only($factoryData, ['name', 'description']);
+        /** @var User $user */
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)
+            ->post(route('tasks.store'), $factoryData);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseHas('tasks', $task);
+    }
+
+//    public function testShow(): void
+//    {
+//        User::factory()->create();
+//        $task = Task::factory()->create();
+//        $response = $this->get(route('tasks.show', [$task]));
+//        $response->assertOk();
+//    }
+//
+//    public function testEdit(): void
+//    {
+//        /** @var User $user */
+//        $user = User::factory()->create();
+//        $task = Task::factory()->create();
+//        $response = $this->actingAs($user)
+//            ->get(route('tasks.edit', [$task]));
+//        $response->assertOk();
+//    }
+//
+//    public function testUpdate(): void
+//    {
+//        /** @var User $user */
+//        $user = User::factory()->create();
+//        $task = Task::factory()->create();
+//        $newTask = $task->only(['name', 'description', 'status_id']);
+//
+//        $response = $this->actingAs($user)
+//            ->patch(route('tasks.update', $task), $newTask);
+//        $response->assertSessionHasNoErrors();
+//        $response->assertRedirect(route('tasks.index'));
+//
+//        $this->assertDatabaseHas('tasks', $newTask);
+//    }
+//
+//    public function testDestroy(): void
+//    {
+//        /** @var User $user */
+//        $user = User::factory()->create();
+//        $task = Task::factory()->create();
+//
+//        $response = $this->actingAs($user)
+//            ->delete(route('tasks.destroy', [$task]));
+//        $response->assertSessionHasNoErrors();
+//        $response->assertRedirect(route('tasks.index'));
+//
+//        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+//    }
+}

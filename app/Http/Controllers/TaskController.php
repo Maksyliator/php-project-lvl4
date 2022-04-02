@@ -32,7 +32,8 @@ class TaskController extends Controller
         $task = new Task();
         $taskStatuses = DB::table('task_statuses')->get();
         $users = DB::table('users')->get();
-        return view('tasks.create', compact('task', 'taskStatuses', 'users'));
+        $labels = DB::table('labels')->get();
+        return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     /**
@@ -46,12 +47,17 @@ class TaskController extends Controller
         $data = $this->validate($request, [
             'name' => 'required|unique:tasks|max:255',
             'description' => 'max:1000',
-            'status_id' => 'required',
-            'assigned_to_id' => 'nullable'
+            'status_id' => 'required'
         ]);
         $task = new Task();
         $task->fill($data);
         $task->created_by_id = Auth::id();
+        $labels = $request->input()['labels'];
+        if (!$labels[0]) {
+            unset($labels[0]);
+        } else {
+            $task->labels()->sync($labels);
+        }
         $task->save();
         flash(__('messages.taskSuccessAdded'))->success();
         return redirect(route('tasks.index'));
@@ -78,7 +84,8 @@ class TaskController extends Controller
     {
         $taskStatuses = DB::table('task_statuses')->get();
         $users = DB::table('users')->get();
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
+        $labels = DB::table('labels')->get();
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     /**
@@ -93,11 +100,16 @@ class TaskController extends Controller
         $data = $this->validate($request, [
             'name' => 'required:tasks|max:255',
             'description' => 'max:1000',
-            'status_id' => 'required',
-            'assigned_to_id' => 'nullable'
+            'status_id' => 'required'
         ]);
         $task->fill($data);
         $task->created_by_id = Auth::id();
+        $labels = $request->labels;
+        if (!$labels[0]) {
+            unset($labels[0]);
+        } else {
+            $task->labels()->sync($labels);
+        }
         $task->save();
         flash(__('flash.tasks.update.success'))->success();
         return redirect(route('tasks.index'));
@@ -114,6 +126,7 @@ class TaskController extends Controller
         $userIdAuth = Auth::id();
         $userOwnerId = $task->createdBy->id;
         if ($userIdAuth === $userOwnerId) {
+            $task->labels()->detach();
             $task->delete();
             flash(__('flash.tasks.delete.success'))->success();
         } else {

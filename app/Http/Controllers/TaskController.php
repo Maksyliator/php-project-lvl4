@@ -105,11 +105,10 @@ class TaskController extends Controller
         $task->fill($data);
         $task->created_by_id = Auth::id();
         $labels = $request->labels;
-        if (!$labels[0]) {
-            unset($labels[0]);
-        } else {
-            $task->labels()->sync($labels);
+        if (isset($labels) && $labels[0] === null) {
+            $labels = [];
         }
+        $task->labels()->sync($labels);
         $task->save();
         flash(__('flash.tasks.update.success'))->success();
         return redirect(route('tasks.index'));

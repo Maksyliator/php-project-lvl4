@@ -5,14 +5,21 @@
 @endsection
 
 @section('content')
-    <div class="d-flex">
+    <main class="container py-4">
+    <div class="d-flex mb-3">
+            {{ Form::open(['url' => route('tasks.index'), 'method' => 'get']) }}
+            {{ Form::select('status_id', ['' => __('Status')] + $taskStatuses->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"status_id", 'name' =>"filter[status_id]"]) }}
+            {{ Form::select('created_by_id', ['' => __('Author')] + $users->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"created_by_id", 'name' =>"filter[created_by_id]"]) }}
+            {{ Form::select('assigned_to_id', ['' => __('Assigned To')] + $users->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"assigned_to_id", 'name' =>"filter[assigned_to_id]"]) }}
+            {{ Form::submit(__('Apply'), ['class' => "btn btn-outline-primary mr-2"]) }}
+            {{ Form::close() }}
         @auth
         <a href="{{ route('tasks.create')}}" class="btn btn-primary ml-auto">
             {{ __('Create task') }}
         </a>
         @endauth
     </div>
-    <table class="table mt-2">
+    <table class="table me-2">
         <thead>
             <tr>
                 <th>ID</th>
@@ -52,6 +59,7 @@
         @endforeach
     </tbody>
     </table>
+    </main>
     <nav aria-label="navigation">
     {{ $tasks->links("pagination::bootstrap-4") }}
     </nav>

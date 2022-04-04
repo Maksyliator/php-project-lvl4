@@ -53,21 +53,22 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:tasks|max:255',
-            'description' => 'max:1000',
-            'status_id' => 'required'
+            'name' => 'required|unique:tasks',
+            'description' => 'nullable',
+            'status_id' => 'required',
+            'assigned_to_id' => 'nullable',
+        ], [
+            'unique' => __('messages.flash.validation.taskUnique'),
         ]);
         $task = new Task();
         $task->fill($data);
         $task->created_by_id = Auth::id();
-        $labels = $request->input()['labels'];
-        if (!$labels[0]) {
-            unset($labels[0]);
-        } else {
+        $task->save();
+        $labels = $request->labels;
+        if (is_array($labels) && $labels[0] !== null) {
             $task->labels()->sync($labels);
         }
-        $task->save();
-        flash(__('messages.taskSuccessAdded'))->success();
+        flash(__('messages.flash.success.added', ['subject' => __('task.subject')]))->success();
         return redirect(route('tasks.index'));
     }
 
@@ -106,19 +107,21 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $data = $this->validate($request, [
-            'name' => 'required:tasks|max:255',
-            'description' => 'max:1000',
-            'status_id' => 'required'
+            'name' => 'required:tasks',
+            'description' => 'nullable',
+            'status_id' => 'required',
+            'assigned_to_id' => 'nullable',
         ]);
         $task->fill($data);
         $task->created_by_id = Auth::id();
+        $task->save();
         $labels = $request->labels;
-        if (isset($labels) && $labels[0] === null) {
+        if ($labels[0] === null) {
             $labels = [];
         }
         $task->labels()->sync($labels);
-        $task->save();
-        flash(__('flash.tasks.update.success'))->success();
+
+        flash(__('messages.flash.success.updated', ['subject' => __('task.subject')]))->success();
         return redirect(route('tasks.index'));
     }
 
@@ -130,15 +133,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $userIdAuth = Auth::id();
-        $userOwnerId = $task->createdBy->id;
-        if ($userIdAuth === $userOwnerId) {
-            $task->labels()->detach();
-            $task->delete();
-            flash(__('flash.tasks.delete.success'))->success();
-        } else {
-            flash(__('flash.tasks.failed_to_delete.error'))->error();
-        }
+        $task->labels()->detach();
+        $task->delete();
+        flash(__('messages.flash.success.deleted', ['subject' => __('task.subject')]))->success();
         return redirect()->route('tasks.index');
     }
 }

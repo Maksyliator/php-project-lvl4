@@ -1,4 +1,4 @@
-{{ Form::label('name', __('Name')) }}
+{{ Form::label('name', __('label.name')) }}
 @if (!$errors->has('name'))
     {{ Form::text('name', old('$label->name'), ['class' => 'form-control my-2']) }}
 @else
@@ -8,6 +8,6 @@
     @enderror
 @endif
 
-{{ Form::label('description', __('Description')) }}
+{{ Form::label('description', __('label.description')) }}
 {{ Form::textarea('description', old('$label->description'), ['class' => 'form-control my-2', 'cols' => '50', 'rows' => '10']) }}
 

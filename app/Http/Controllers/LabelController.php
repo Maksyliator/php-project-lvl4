@@ -40,11 +40,13 @@ class LabelController extends Controller
         $data = $this->validate($request, [
             'name' => 'required|unique:labels',
             'description' => 'nullable'
+        ], [
+            'unique' => __('messages.flash.validation.labelUnique'),
         ]);
         $label = new Label();
         $label->fill($data);
         $label->save();
-        flash(__('flash.label.create.success'))->success();
+        flash(__('messages.flash.success.added', ['subject' => __('label.subject')]))->success();
         return redirect(route('labels.index'));
     }
 
@@ -85,7 +87,7 @@ class LabelController extends Controller
         ]);
         $label->fill($data);
         $label->save();
-        flash(__('flash.label.create.success'))->success();
+        flash(__('messages.flash.success.updated', ['subject' => __('label.subject')]))->success();
         return redirect(route('labels.index'));
     }
 
@@ -99,10 +101,10 @@ class LabelController extends Controller
     {
         if ($label->tasks->isEmpty()) {
             $label->delete();
-            flash(__('flash.label.delete.success'))->success();
+            flash(__('messages.flash.success.deleted', ['subject' => __('label.subject')]))->success();
             return redirect()->route('labels.index');
         }
-        flash(__('flash.label.failed_to_delete.error'))->error();
+        flash(__('messages.flash.error.deletedLabel'))->error();
         return redirect()->route('labels.index');
     }
 }

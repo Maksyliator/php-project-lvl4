@@ -1,35 +1,48 @@
 @extends('layouts.app')
 
 @section('h1')
-    {{ __('Tasks') }}
+    {{ __('task.title') }}
 @endsection
 
 @section('content')
     <main class="container py-4">
     <div class="d-flex mb-3">
-            {{ Form::open(['url' => route('tasks.index'), 'method' => 'get']) }}
-            {{ Form::select('status_id', ['' => __('Status')] + $taskStatuses->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"status_id", 'name' =>"filter[status_id]"]) }}
-            {{ Form::select('created_by_id', ['' => __('Author')] + $users->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"created_by_id", 'name' =>"filter[created_by_id]"]) }}
-            {{ Form::select('assigned_to_id', ['' => __('Assigned To')] + $users->pluck('name', 'id')->all(), null, ['class' =>"form-select me-2", 'id' =>"assigned_to_id", 'name' =>"filter[assigned_to_id]"]) }}
-            {{ Form::submit(__('Apply'), ['class' => "btn btn-outline-primary mr-2"]) }}
-            {{ Form::close() }}
+        {{ Form::open(['url' => route('tasks.index'), 'method' => 'get']) }}
+        <div class="row g-1">
+            <div class="col">
+        {{ Form::select('status_id', ['' => __('task.status')] + $taskStatuses->pluck('name', 'id')->all(), null,
+            ['class' =>"form-select me-2", 'id' =>"status_id", 'name' =>"filter[status_id]"]) }}
+            </div>
+            <div class="col">
+        {{ Form::select('created_by_id', ['' => __('task.creator')] + $users->pluck('name', 'id')->all(), null,
+            ['class' =>"form-select me-2", 'id' =>"created_by_id", 'name' =>"filter[created_by_id]"]) }}
+            </div>
+            <div class="col">
+        {{ Form::select('assigned_to_id', ['' => __('task.assigned')] + $users->pluck('name', 'id')->all(), null,
+            ['class' =>"form-select me-2", 'id' =>"assigned_to_id", 'name' =>"filter[assigned_to_id]"]) }}
+            </div>
+            <div class="col">
+        {{ Form::submit(__('task.apply'), ['class' => "btn btn-outline-primary mr-2"]) }}
+            </div>
+        </div>
+        {{ Form::close() }}
         @auth
-        <a href="{{ route('tasks.create')}}" class="btn btn-primary ml-auto">
-            {{ __('Create task') }}
-        </a>
+            <div class="ms-auto">
+                <a href="{{ route('tasks.create')}}" class="btn btn-primary ml-auto"> {{ __('task.create_task') }} </a>
+            </div>
         @endauth
     </div>
     <table class="table me-2">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>{{ __('Status') }}</th>
-                <th>{{ __('Name') }}</th>
-                <th>{{ __('Creator') }}</th>
-                <th>{{ __('Assigned To') }}</th>
-                <th>{{ __('Created at') }}</th>
+                <th>{{ __('task.status') }}</th>
+                <th>{{ __('task.name') }}</th>
+                <th>{{ __('task.creator') }}</th>
+                <th>{{ __('task.assigned') }}</th>
+                <th>{{ __('task.created_at') }}</th>
                 @auth
-                <th>{{ __('Actions') }}</th>
+                <th>{{ __('task.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -46,12 +59,12 @@
             <td>
                 @can('delete', $task)
 
-                    <a class="text-danger" data-method="DELETE" href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('Аre you sure?') }}"  rel="nofollow">
-                        {{ __('Delete') }}
+                    <a class="text-danger" data-method="DELETE" href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('messages.alert.confirm') }}"  rel="nofollow">
+                        {{ __('task.delete') }}
                     </a>
                 @endcan
                     <a href="{{ route('tasks.edit', $task->id) }}" rel="nofollow">
-                        {{ __('Change') }}
+                        {{ __('task.change') }}
                     </a>
             </td>
             @endauth

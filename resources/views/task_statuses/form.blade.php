@@ -1,4 +1,4 @@
-{{ Form::label('name', __('Name')) }}
+{{ Form::label('name', __('taskStatus.name')) }}
 @if (!$errors->has('name'))
     {{ Form::text('name', old('$taskStatus->name'), ['class' => 'form-control my-2']) }}
 @else

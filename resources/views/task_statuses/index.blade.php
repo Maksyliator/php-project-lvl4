@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('h1')
-    {{ __('Statuses') }}
+    {{ __('taskStatus.title') }}
 @endsection
 
 @section('content')
     @if (Auth::user())
     <a href="{{  route('task_statuses.create') }}" class="btn btn-primary">
-        {{ __('Create status') }}
+        {{ __('taskStatus.create_status') }}
     </a>
     @endif
     <table class="table mt-2">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>{{ __('Name') }}</th>
-                <th>{{__('Created at')}}</th>
+                <th>{{ __('taskStatus.name') }}</th>
+                <th>{{__('taskStatus.created_at')}}</th>
                 @auth
-                <th>{{ __('Actions') }}</th>
+                <th>{{ __('taskStatus.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -30,13 +30,13 @@
                 <td>
                     @auth
                         <a class="text-danger" href="{{ route('task_statuses.destroy', $taskStatus)}}"
-                           data-confirm="{{ __('Аre you sure?') }}"
+                           data-confirm="{{ __('messages.alert.confirm') }}"
                            data-method="delete"
                            rel="nofollow"
-                        >{{ __('Delete') }}
+                        >{{ __('taskStatus.delete') }}
                         </a>
                         <a href="{{ route('task_statuses.edit', $taskStatus) }}">
-                            {{ __('Edit') }}
+                            {{ __('taskStatus.change') }}
                         </a>
                     @endauth
                 </td>

@@ -35,11 +35,13 @@ class TaskStatusController extends Controller
     {
         $data = $this->validate($request, [
             'name' => 'required|unique:task_statuses'
+        ], [
+            'unique' => __('messages.flash.validation.statusUnique'),
         ]);
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash(__('flash.task_status.create.success'))->success();
+        flash(__('messages.flash.success.addedStatus'))->success();
         return redirect(route('task_statuses.index'));
     }
 
@@ -73,7 +75,7 @@ class TaskStatusController extends Controller
         ]);
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash(__('flash.task_status.update.success'))->success();
+        flash(__('messages.flash.success.updatedStatus'))->success();
         return redirect(route('task_statuses.index'));
     }
 
@@ -87,10 +89,10 @@ class TaskStatusController extends Controller
     {
         if ($taskStatus->tasks->isEmpty()) {
             $taskStatus->delete();
-            flash(__('flash.task_status.delete.success'))->success();
+            flash(__('messages.flash.success.deletedStatus'))->success();
             return redirect()->route('task_statuses.index');
         }
-        flash(__('flash.task_status.failed_to_delete.error'))->error();
+        flash(__('messages.flash.error.deletedStatus'))->error();
         return redirect()->route('task_statuses.index');
     }
 }

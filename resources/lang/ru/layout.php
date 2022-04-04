@@ -7,5 +7,5 @@ return [
     'labels' => 'Метки',
     'login'    => 'Вход',
     'register' => 'Регистрация',
-    'logout'  => 'Выйти'
+    'logout'  => 'Выход'
 ];

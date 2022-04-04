@@ -40,7 +40,6 @@ class TaskStatusControllerTest extends TestCase
             ->post(route('task_statuses.store'), $taskStatus);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('task_statuses.index'));
-
         $this->assertDatabaseHas('task_statuses', $taskStatus);
     }
 
@@ -64,7 +63,6 @@ class TaskStatusControllerTest extends TestCase
             ->patch(route('task_statuses.update', $taskStatus), $newTaskStatus);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('task_statuses.index'));
-
         $this->assertDatabaseHas('task_statuses', $newTaskStatus);
     }
 
@@ -73,7 +71,6 @@ class TaskStatusControllerTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
-
         $response = $this->actingAs($user)
             ->delete(route('task_statuses.destroy', [$taskStatus]));
         $response->assertSessionHasNoErrors();

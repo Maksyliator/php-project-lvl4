@@ -116,7 +116,7 @@ class TaskController extends Controller
         $task->created_by_id = Auth::id();
         $task->save();
         $labels = $request->labels;
-        if ($labels[0] === null) {
+        if (is_array($labels) && $labels[0] === null) {
             $labels = [];
         }
         $task->labels()->sync($labels);

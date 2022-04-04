@@ -40,7 +40,6 @@ class TaskControllerTest extends TestCase
     public function testStore(): void
     {
         $factoryData = Task::factory()->make()->toArray();
-        $factoryData['labels'] = [null];
         $task = Arr::only($factoryData, ['name', 'description']);
         /** @var User $user */
         $user = User::factory()->create();
@@ -48,7 +47,6 @@ class TaskControllerTest extends TestCase
             ->post(route('tasks.store'), $factoryData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
-
         $this->assertDatabaseHas('tasks', $task);
     }
 
@@ -76,12 +74,10 @@ class TaskControllerTest extends TestCase
         $user = User::factory()->create();
         $task = Task::factory()->create();
         $newTask = $task->only(['name', 'description', 'status_id']);
-
         $response = $this->actingAs($user)
             ->patch(route('tasks.update', $task), $newTask);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
-
         $this->assertDatabaseHas('tasks', $newTask);
     }
 
@@ -90,12 +86,10 @@ class TaskControllerTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create();
         $task = Task::factory()->create();
-
         $response = $this->actingAs($user)
             ->delete(route('tasks.destroy', [$task]));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
-
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 }

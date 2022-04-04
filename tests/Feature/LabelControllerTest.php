@@ -42,7 +42,6 @@ class LabelControllerTest extends TestCase
             ->post(route('labels.store'), $label);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
-
         $this->assertDatabaseHas('labels', $label);
     }
 
@@ -66,7 +65,6 @@ class LabelControllerTest extends TestCase
             ->patch(route('labels.update', $label), $newLabel);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
-
         $this->assertDatabaseHas('labels', $newLabel);
     }
 
@@ -75,7 +73,6 @@ class LabelControllerTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create();
         $label = Label::factory()->create();
-
         $response = $this->actingAs($user)
             ->delete(route('labels.destroy', [$label]));
         $response->assertSessionHasNoErrors();

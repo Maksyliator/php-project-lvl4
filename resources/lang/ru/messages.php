@@ -5,10 +5,10 @@ return [
         'success' => [
             'added' => ':subject успешно создана',
             'updated' => ':subject успешно изменена',
-            'deleted' => ':subject успешно удалена',
+            'deleted' => ':subject успешно удалёна',
             'addedStatus' => 'Статус успешно создан',
-            'updatedStatus' => 'Статус успешно изменен',
-            'deletedStatus' => 'Статус успешно удален',
+            'updatedStatus' => 'Статус успешно изменён',
+            'deletedStatus' => 'Статус успешно удалён',
         ],
         'error' => [
             'deletedStatus' => 'Не удалось удалить статус',

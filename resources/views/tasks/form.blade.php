@@ -24,5 +24,5 @@
 {{ Form::label('assigned_to_id', __('task.assigned')), ['class' => "form-group"] }}
 {{ Form::select('assigned_to_id', ['' => '----------'] + $users->pluck('name', 'id')->all(), null, ['class' =>"form-control my-2", 'id' =>"assigned_to_id", 'name' =>"assigned_to_id"]) }}
 
-{{ Form::label('labels', __('Labels')), ['class' => "form-group"] }}
+{{ Form::label('labels', __('task.labels')), ['class' => "form-group"] }}
 {{ Form::select('labels', ['' => '----------' ] + $labels->pluck('name', 'id')->all(), null, ['class' =>"form-control my-2", 'id' =>"assigned_to_id", 'multiple' => "", 'name' =>"labels[]"]) }}

@@ -5,7 +5,7 @@ return [
         'success' => [
             'added' => ':subject успешно создана',
             'updated' => ':subject успешно изменена',
-            'deleted' => ':subject успешно удалёна',
+            'deleted' => ':subject успешно удалена',
             'addedStatus' => 'Статус успешно создан',
             'updatedStatus' => 'Статус успешно изменён',
             'deletedStatus' => 'Статус успешно удалён',

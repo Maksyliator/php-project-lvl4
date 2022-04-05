@@ -62,8 +62,8 @@ class TaskController extends Controller
         ]);
         $task = new Task();
         $task->fill($data);
-        $createdById = Auth::id();
-        $task->created_by_id = $createdById;
+        $user = (int) Auth::id();
+        $task->created_by_id = $user;
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] !== null) {
@@ -114,8 +114,7 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable',
         ]);
         $task->fill($data);
-        $createdById = Auth::id();
-        $task->created_by_id = $createdById;
+        $task->created_by_id->associate(Auth::user());
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] === null) {

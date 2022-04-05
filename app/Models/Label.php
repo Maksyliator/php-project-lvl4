@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Label extends Model
 {
     use HasFactory;
+
     protected $table = 'labels';
 
     protected $fillable = [

@@ -1,12 +1,12 @@
 <?php
 
-
 namespace Tests\Feature;
 
 use App\Models\Label;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+
 use function route;
 
 class LabelControllerTest extends TestCase

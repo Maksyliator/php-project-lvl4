@@ -51,17 +51,6 @@ class LabelController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Label  $label
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Label $label)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Label  $label

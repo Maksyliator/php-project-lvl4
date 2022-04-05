@@ -1,0 +1,12 @@
+parameters:
+    checkMissingIterableValueType: false
+    reportMaybesInPropertyPhpDocTypes: false
+
+    ignoreErrors:
+
+    level: max
+
+    paths:
+        - app/
+        - tests/
+        - routes/

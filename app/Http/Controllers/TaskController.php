@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -94,9 +95,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $taskStatuses = TaskStatus::all();
-        $users = User::all();
-        $labels = Label::all();
+        $taskStatuses = DB::table('task_statuses')->get();
+        $users = DB::table('users')->get();
+        $labels = DB::table('labels')->get();
         return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 

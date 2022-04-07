@@ -44,11 +44,6 @@ class TaskStatusController extends Controller
         return redirect(route('task_statuses.index'));
     }
 
-    public function show(TaskStatus $taskStatus)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -92,6 +87,6 @@ class TaskStatusController extends Controller
             return redirect()->route('task_statuses.index');
         }
         flash(__('messages.flash.error.deletedStatus'))->error();
-        return redirect()->route('task_statuses.index');
+        return redirect()->back();
     }
 }

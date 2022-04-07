@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
+use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,8 +26,8 @@ class TaskController extends Controller
                 AllowedFilter::exact('created_by_id'),
                 AllowedFilter::exact('status_id'),
             ])->paginate(10);
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
+        $taskStatuses = TaskStatus::pluck('name');
+        $users = User::pluck('name');
         $activeFilters = optional(request()->get('filter'));
         return view('tasks.index', compact('tasks', 'taskStatuses', 'users', 'activeFilters'));
     }
@@ -38,9 +40,9 @@ class TaskController extends Controller
     public function create()
     {
         $task = new Task();
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
-        $labels = DB::table('labels')->get();
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        $labels = Label::all();
         return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
@@ -53,7 +55,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:tasks',
+            'name' => 'required|unique:tasks|max:255',
             'description' => 'nullable',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable',
@@ -62,8 +64,8 @@ class TaskController extends Controller
         ]);
         $task = new Task();
         $task->fill($data);
-        $user = (int) Auth::id();
-        $task->created_by_id = $user;
+        $user = Auth::user();
+        $task = $user->createdTasks()->make($data);
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] !== null) {
@@ -92,9 +94,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
-        $labels = DB::table('labels')->get();
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        $labels = Label::all();
         return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
@@ -114,8 +116,8 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable',
         ]);
         $task->fill($data);
-        $user = (int) Auth::id();
-        $task->created_by_id = $user;
+        $user = Auth::user();
+        $task = $user->createdTasks()->make($data);
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] === null) {

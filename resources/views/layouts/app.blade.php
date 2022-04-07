@@ -94,6 +94,11 @@
 </div>
 </header>
 
-
+<div class="wrapper flex-grow-1"></div>
+<footer class="py-3 mt-5 shadow-lg">
+    <div class="text-center container-lg">
+        {{ date('Y') }} г.
+    </div>
+</footer>
 </body>
 </html>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,12 +23,12 @@ class TaskController extends Controller
     {
         $tasks = QueryBuilder::for(Task::class)
             ->allowedFilters([
-                AllowedFilter::exact('assigned_to_id'),
-                AllowedFilter::exact('created_by_id'),
                 AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id')
             ])->paginate(10);
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
         $activeFilters = optional(request()->get('filter'));
         return view('tasks.index', compact('tasks', 'taskStatuses', 'users', 'activeFilters'));
     }
@@ -38,9 +41,9 @@ class TaskController extends Controller
     public function create()
     {
         $task = new Task();
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
-        $labels = DB::table('labels')->get();
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        $labels = Label::all();
         return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
@@ -62,8 +65,8 @@ class TaskController extends Controller
         ]);
         $task = new Task();
         $task->fill($data);
-        $user = (int) Auth::id();
-        $task->created_by_id = $user;
+        $user = Auth::user();
+        $task = $user->createdTasks()->make($data);
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] !== null) {
@@ -92,9 +95,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $taskStatuses = DB::table('task_statuses')->get();
-        $users = DB::table('users')->get();
-        $labels = DB::table('labels')->get();
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        $labels = Label::all();
         return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
@@ -114,15 +117,12 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable',
         ]);
         $task->fill($data);
-        $user = (int) Auth::id();
-        $task->created_by_id = $user;
         $task->save();
         $labels = $request->labels;
         if (is_array($labels) && $labels[0] === null) {
             $labels = [];
         }
         $task->labels()->sync($labels);
-
         flash(__('messages.flash.success.updated', ['subject' => __('task.subject')]))->success();
         return redirect(route('tasks.index'));
     }

@@ -92,6 +92,6 @@ class TaskStatusController extends Controller
             return redirect()->route('task_statuses.index');
         }
         flash(__('messages.flash.error.deletedStatus'))->error();
-        return redirect()->route('task_statuses.index');
+        return redirect()->back();
     }
 }

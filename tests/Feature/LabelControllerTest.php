@@ -13,9 +13,12 @@ class LabelControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->user = User::factory()->create();
     }
 
     public function testIndex(): void
@@ -26,20 +29,14 @@ class LabelControllerTest extends TestCase
 
     public function testCreate(): void
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)
-            ->get(route('labels.create'));
+        $response = $this->actingAs($this->user)->get(route('labels.create'));
         $response->assertOk();
     }
 
     public function testStore(): void
     {
         $label = Label::factory()->make()->toArray();
-        /** @var User $user */
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)
-            ->post(route('labels.store'), $label);
+        $response = $this->actingAs($this->user)->post(route('labels.store'), $label);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
         $this->assertDatabaseHas('labels', $label);
@@ -48,10 +45,7 @@ class LabelControllerTest extends TestCase
     public function testEdit(): void
     {
         $label = Label::factory()->create();
-        /** @var User $user */
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)
-            ->get(route('labels.edit', [$label]));
+        $response = $this->actingAs($this->user)->get(route('labels.edit', [$label]));
         $response->assertOk();
     }
 
@@ -59,10 +53,7 @@ class LabelControllerTest extends TestCase
     {
         $label = Label::factory()->create();
         $newLabel = $label->only(['name', 'description']);
-        /** @var User $user */
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)
-            ->patch(route('labels.update', $label), $newLabel);
+        $response = $this->actingAs($this->user)->patch(route('labels.update', $label), $newLabel);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
         $this->assertDatabaseHas('labels', $newLabel);
@@ -70,11 +61,8 @@ class LabelControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        /** @var User $user */
-        $user = User::factory()->create();
         $label = Label::factory()->create();
-        $response = $this->actingAs($user)
-            ->delete(route('labels.destroy', [$label]));
+        $response = $this->actingAs($this->user)->delete(route('labels.destroy', [$label]));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
         $this->assertDatabaseMissing('labels', ['id' => $label->id]);

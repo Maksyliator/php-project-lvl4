@@ -52,11 +52,11 @@ class LabelControllerTest extends TestCase
     public function testUpdate(): void
     {
         $label = Label::factory()->create();
-        $newLabel = $label->only(['name', 'description']);
-        $response = $this->actingAs($this->user)->patch(route('labels.update', $label), $newLabel);
+        $labelData = $label->only(['name', 'description']);
+        $response = $this->actingAs($this->user)->patch(route('labels.update', $label), $labelData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('labels.index'));
-        $this->assertDatabaseHas('labels', $newLabel);
+        $this->assertDatabaseHas('labels', $labelData);
     }
 
     public function testDestroy(): void

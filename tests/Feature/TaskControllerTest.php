@@ -61,11 +61,11 @@ class TaskControllerTest extends TestCase
     public function testUpdate(): void
     {
         $task = Task::factory()->create();
-        $newTask = $task->only(['name', 'description', 'status_id']);
-        $response = $this->actingAs($this->user)->patch(route('tasks.update', $task), $newTask);
+        $taskData = $task->only(['name', 'description', 'status_id']);
+        $response = $this->actingAs($this->user)->patch(route('tasks.update', $task), $taskData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
-        $this->assertDatabaseHas('tasks', $newTask);
+        $this->assertDatabaseHas('tasks', $taskData);
     }
 
     public function testDestroy(): void

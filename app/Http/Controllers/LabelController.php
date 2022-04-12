@@ -38,8 +38,8 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:labels',
-            'description' => 'nullable'
+            'name' => 'required|unique:labels|max:255',
+            'description' => 'nullable|max:500'
         ], [
             'unique' => __('messages.flash.validation.labelUnique'),
         ]);
@@ -71,8 +71,8 @@ class LabelController extends Controller
     public function update(Request $request, Label $label)
     {
         $data = $this->validate($request, [
-            'name' => 'required:labels',
-            'description' => 'nullable'
+            'name' => 'required:labels|max:255',
+            'description' => 'nullable|max:500'
         ]);
         $label->fill($data);
         $label->save();

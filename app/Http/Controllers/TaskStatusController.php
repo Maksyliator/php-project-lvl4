@@ -33,7 +33,7 @@ class TaskStatusController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:task_statuses'
+            'name' => 'required|unique:task_statuses|max:255'
         ], [
             'unique' => __('messages.flash.validation.statusUnique'),
         ]);
@@ -70,7 +70,7 @@ class TaskStatusController extends Controller
     public function update(Request $request, TaskStatus $taskStatus)
     {
         $data = $this->validate($request, [
-            'name' => 'required:task_statuses'
+            'name' => 'required:task_statuses|max:255'
         ]);
         $taskStatus->fill($data);
         $taskStatus->save();

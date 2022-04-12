@@ -8,21 +8,22 @@
     <main class="container py-4">
     <div class="d-flex mb-3">
         {{ Form::open(['url' => route('tasks.index'), 'method' => 'get']) }}
-        <div class="row g-1">
+            <div class="row g-1">
             <div class="col">
-        {{ Form::select('status_id', ['' => __('task.status')] + $taskStatuses->pluck('name', 'id')->all(), null,
-            ['class' =>"form-select me-2", 'id' =>"status_id", 'name' =>"filter[status_id]"]) }}
+
+                {{ Form::select('filter[status_id]', [ '' => __('task.status')] + $taskStatuses->pluck('name', 'id')
+                    ->all(), $activeFilters['status_id'], ['class' =>"form-select me-2"]) }}
             </div>
             <div class="col">
-        {{ Form::select('created_by_id', ['' => __('task.creator')] + $users->pluck('name', 'id')->all(), null,
-            ['class' =>"form-select me-2", 'id' =>"created_by_id", 'name' =>"filter[created_by_id]"]) }}
+                {{ Form::select('filter[created_by_id]', ['' => __('task.creator')] + $users->pluck('name', 'id')
+                    ->all(), $activeFilters['created_by_id'], ['class' =>"form-select me-2"]) }}
             </div>
             <div class="col">
-        {{ Form::select('assigned_to_id', ['' => __('task.assigned')] + $users->pluck('name', 'id')->all(), null,
-            ['class' =>"form-select me-2", 'id' =>"assigned_to_id", 'name' =>"filter[assigned_to_id]"]) }}
+                {{ Form::select('filter[assigned_to_id]', ['' => __('task.assigned')] + $users->pluck('name', 'id')
+                    ->all(), $activeFilters['assigned_to_id'], ['class' =>"form-select me-2"]) }}
             </div>
             <div class="col">
-        {{ Form::submit(__('task.apply'), ['class' => "btn btn-outline-primary mr-2"]) }}
+                {{ Form::submit(__('task.apply'), ['class' => "btn btn-outline-primary mr-2"]) }}
             </div>
         </div>
         {{ Form::close() }}

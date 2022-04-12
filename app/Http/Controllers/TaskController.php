@@ -8,7 +8,6 @@ use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -56,8 +55,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|unique:tasks',
-            'description' => 'nullable',
+            'name' => 'required|unique:tasks|max:255',
+            'description' => 'nullable|max:500',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable',
         ], [
@@ -111,8 +110,8 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $data = $this->validate($request, [
-            'name' => 'required:tasks',
-            'description' => 'nullable',
+            'name' => 'required:tasks|max:255',
+            'description' => 'nullable|max:500',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable',
         ]);

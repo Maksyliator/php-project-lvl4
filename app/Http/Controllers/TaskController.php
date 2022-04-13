@@ -67,10 +67,8 @@ class TaskController extends Controller
         $user = Auth::user();
         $task = $user->createdTasks()->make($data);
         $task->save();
-        $labels = $request->labels;
-        if (is_array($labels) && $labels[0] !== null) {
-            $task->labels()->sync($labels);
-        }
+        $labels = array_filter($request->input('labels', []) ?? []);
+        $task->labels()->sync($labels);
         flash(__('messages.flash.success.added', ['subject' => __('task.subject')]))->success();
         return redirect(route('tasks.index'));
     }
@@ -117,10 +115,7 @@ class TaskController extends Controller
         ]);
         $task->fill($data);
         $task->save();
-        $labels = $request->labels;
-        if (is_array($labels) && $labels[0] === null) {
-            $labels = [];
-        }
+        $labels = array_filter($request->labels ?? []);
         $task->labels()->sync($labels);
         flash(__('messages.flash.success.updated', ['subject' => __('task.subject')]))->success();
         return redirect(route('tasks.index'));
